@@ -76,14 +76,50 @@ bool fermats_test(int n,int k=10)
 		}
     return true;
 	}
+  bool check_if_composite_using(int a,int d,int n,int s)
+       {
+		int  x = exp(a, d, n);
+        if (x == 1 || x == n - 1)
+            return false;  //probably prime
+        for (int g=0;g<s;++g)
+            {
+				x = (x * x) % n  ;//check for each a^((2^i)*d)
+	            if (x == n - 1)
+	                return false;  // probably prime
+		       
+			}
+			 return true ; // definitely composite
+		}
+bool miller_rabin(int n,int k=10){
+  
+    if (n == 2)
+        return true;
+    if (n == 1 || (n % 2) == 0)
+        return false;
 
+    int s= 0;
+	int d=n-1;
+ 
+    while  (d % 2!=0)
+       {
+		 	s += 1;
+        	d /= 2;
+		}
+    
 
+  
+   // # Test for k random integers a
+    for (int g=0;g<k;++g)
+		{
+			srand(time(NULL));
+			int a=rand()%(n-1)+2;
+      
+        if (check_if_composite_using(a,d,n,s))
+            return false; // # definitelyn composite
+		}
+    return true; // # probably prime
 
-
-
-
-
-
+}
 
 
 
@@ -91,8 +127,10 @@ bool fermats_test(int n,int k=10)
 
 int main()
 {
-cout<<fermats_test(341);
-//cout<<jacobi(3,15);
+//cout<<fermats_test(561);
+cout<<miller_rabin(29);
+
+//cout<<solovay_strassen(221);
 //struct xgcda ans =recursive_xgcd(15, 35);
 //cout<<ans.gcd<<ans.x<<ans.y<<endl;
 //cout<<recursive_gcd(10,25);
