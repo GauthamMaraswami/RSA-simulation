@@ -123,14 +123,37 @@ bool miller_rabin(int n,int k=10){
 
 
 
+bool solovay_strassen(int n, int k=10)
+    {
+
+    if (n == 2)
+        return true;
+    if (n == 1 || (n % 2) == 0)
+        return false;
+
+    for (int g=0;g<k;++g){
+
+			srand(time(NULL));
+			int a=rand()%(n-1)+2;
+       int  x = (jacobi(a, n) + n) % n; // # map -1 to n - 1
+        if (x == 0 || exp(a, (n - 1)/2, n) != x)
+            return false;
+		}
+return true;
+
+}
+
+
+
+
 
 
 int main()
 {
 //cout<<fermats_test(561);
-cout<<miller_rabin(29);
+//cout<<miller_rabin(29);
 
-//cout<<solovay_strassen(221);
+cout<<solovay_strassen(221);
 //struct xgcda ans =recursive_xgcd(15, 35);
 //cout<<ans.gcd<<ans.x<<ans.y<<endl;
 //cout<<recursive_gcd(10,25);
