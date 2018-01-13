@@ -182,6 +182,29 @@ return ans;
 }
 
 
+
+long long int phi(long long int n)
+    {
+    long long int result = n;
+   long long int p = 2;
+    while (p * p <= n)
+        {
+			if (n % p!=0)
+            	{
+					while (n % p!=0){
+	               	 		{
+								n /= p;
+							}
+	           		result -= result / p;
+				}
+        p += 1;
+		}
+    if( n > 1) //# Occurs when prime factor p > sqrt(n), there is one such number
+        result -= result / n;
+    return result;
+
+	}
+
 int main()
 {
 //cout<<fermats_test(561);
