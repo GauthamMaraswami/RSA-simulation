@@ -182,34 +182,31 @@ return ans;
 }
 
 
-
-long long int phi(long long int n)
-    {
-    long long int result = n;
-   long long int p = 2;
-    while (p * p <= n)
-        {
-			if (n % p!=0)
-            	{
-					while (n % p!=0){
-	               	 		{
-								n /= p;
-							}
-	           		result -= result / p;
-				}
-        p += 1;
-		}
-    if( n > 1) //# Occurs when prime factor p > sqrt(n), there is one such number
-        result -= result / n;
-    return result;
+int gcd(int a,int b)
+{
+	while(a>0)
+	{
+		int temp=a;
+		a=b%a;
+		b=temp;
 
 	}
+	return b;
+}
+int phi(unsigned int n)
+{
+    unsigned int result = 1;
+    for (int i=2; i < n; i++)
+        if (gcd(i, n) == 1)
+            result++;
+    return result;
+}
 
 int main()
 {
-//cout<<fermats_test(561);
+cout<<phi(33500000);
 //cout<<miller_rabin(29);
-struct primes  res=seive(54);
+//struct primes  res=seive(54);
 //cout<<solovay_strassen(221);
 //struct xgcda ans =recursive_xgcd(15, 35);
 //cout<<ans.gcd<<ans.x<<ans.y<<endl;
