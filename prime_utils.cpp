@@ -201,11 +201,48 @@ int phi(unsigned int n)
             result++;
     return result;
 }
+uint64_t generate_large_prime(int bits_size,string primality_test="miller_rabin")
+ {
+   // # Get a random bit_size bit integer
 
+
+	srand(time(NULL));
+	uint64_t range = pow(2,bits_size-1);
+	uint64_t num = range + rand()%(range);
+	if(num%2==0)
+		num++;
+
+	if(primality_test=="miller_rabin")
+	{
+		while(miller_rabin(num,50)==false){
+			num+=2;
+			if(num>=range*2)
+				num = range + rand()%(range);
+		}
+	}
+	else if(primality_test=="solovay_strassen")
+	{
+		while(solovay_strassen(num,50)==false){
+			num+=2;
+			if(num>=range*2)
+				num = range + rand()%(range);
+		}
+	}
+	else if(primality_test=="fermats_test")
+	{
+		while(fermats_test(num,50)==false){
+			num+=2;
+			if(num>=range*2)
+				num = range + rand()%(range);
+		}
+	}
+return num;
+    
+}
 int main()
 {
-cout<<phi(33500000);
-//cout<<miller_rabin(29);
+//cout<(33500000);
+cout<<generate_large_prime(32);
 //struct primes  res=seive(54);
 //cout<<solovay_strassen(221);
 //struct xgcda ans =recursive_xgcd(15, 35);
