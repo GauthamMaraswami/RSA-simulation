@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include<gcd.cpp>
 using namespace std;
 
 unsigned long long int exp( unsigned long long int  x, int n,  unsigned long long int p=1000007)
