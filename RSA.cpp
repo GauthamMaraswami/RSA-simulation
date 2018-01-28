@@ -47,29 +47,28 @@ EXAMPLES
     -1
 */
 int jacobi(int a,int  b)
-    {
-
+{
     if (b <= 0)
-        {
-			cout<<"b has to be >= 1"<<endl;
-			exit(-1);	
-		}
+    {
+		cout<<"b has to be >= 1"<<endl;
+		exit(-1);	
+	}
     if (b%2!=1)
-        {
-			cout<<"b has to be odd"<<endl;
-			exit(-1);	
-		}
-
-
-   int ans = 1;
+    {
+		cout<<"b has to be odd"<<endl;
+		exit(-1);	
+	}
+    int ans = 1;
     if (a < 0)
-        {
-			int a = -a;
-        	if (b % 4 == 3)
-            	ans = -ans;
-		}
-    while( a != 0){
-        while ( ~a % 2){
+    {
+		int a = -a;
+       	if (b % 4 == 3)
+           	ans = -ans;
+	}
+    while( a != 0)
+	{
+        while ( ~a % 2)
+		{
 			a /= 2;
             if ((b % 8) >=3&& (b%8)<= 5)
                 ans = -ans;
