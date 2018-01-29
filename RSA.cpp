@@ -1,24 +1,52 @@
 #include<bits/stdc++.h>
 using namespace std;
+//function to find exponentation 
+/*
 
+return  x^n mod p
+ EXAMPLES
+    ========
+    >>> exp(2,47)
+    199807
+    >>> exp(3,51,678)
+    93
+    """
+*/
 uint64_t exp( uint64_t  x, uint64_t n,  uint64_t p=1000007)
 {
 	uint64_t ans = 1;
-     x = x % p;
+    x = x % p;
 
-    while (n > 0){
-        if (n & 1){
+    while (n > 0)
+	{
+        if (n & 1)
+		{
             ans = (ans * x) % p;
 		}	
         x = (x * x) % p;
         n = n >> 1;
 	}
-
-return ans;
+	return ans;
 }
-
-
- int jacobi(int a,int  b)
+/*
+calculates the jacobi symbol of the 
+EXAMPLES
+    ========
+    >>> jacobi(1001, 9907)
+    -1
+    >>> jacobi(19, 45)
+    1
+    >>> jacobi(8,21)
+    -1
+    >>> jacobi(3, 15)
+    0
+    >>> jacobi(13, 28)
+    Traceback (most recent call last):
+    ValueError: b has to be odd
+    >>> jacobi(28, 13)
+    -1
+*/
+int jacobi(int a,int  b)
     {
 
     if (b <= 0)
@@ -60,6 +88,23 @@ return ans;
 }
 //primality tests.cpp
 
+/*Fermat's Primality test
+    Returns True(probably prime) if n is prime, Flase if n is composite.
+    Args:
+        n: integer to be tested for primality
+        k: number of iterations of the Fermat's Primality Test
+ EXAMPLES
+    ========
+    >>> fermats_test(5)
+    True
+    >>> fermats_test(4)
+    False
+    >>> fermats_test(341)
+    False
+    The test may fail for n = 561 = 3.11.17, the smallest Carmichael number if
+    we add the condition that the chosen 'a' values have to be co-prime to n.
+    >>> fermats_test(561)
+    False*/
 bool fermats_test(int n,int k=10)
    {
     if (n == 2)
@@ -90,6 +135,18 @@ bool fermats_test(int n,int k=10)
 			}
 			 return true ; // definitely composite
 		}
+/*
+"Miller Rabin Primality Test
+    Return False if n is composite, True(probably prime) otherwise.
+EXAMPLES
+    ========
+    >>> miller_rabin(561)
+    False
+    >>> miller_rabin(29)
+    True
+    >>> miller_rabin(221)
+    False
+*/
 bool miller_rabin(uint64_t n,uint64_t k=10){
   
     if (n == 2)
@@ -121,7 +178,17 @@ bool miller_rabin(uint64_t n,uint64_t k=10){
 
 }
 
-
+/*
+Solovay Strassen Primality Test
+    Returns False is n is composite, True(probably prime) otherwise.
+EXAMPLES
+    >>> solovay_strassen(561)
+    False
+    >>> solovay_strassen(29)
+    True
+    >>> solovay_strassen(221)
+    False
+*/
 
 bool solovay_strassen(int n, int k=10)
     {
@@ -151,7 +218,10 @@ struct primes{
 		int list[1000000];
 		int size;
 };
-
+/*
+Seive of Eratosthenes
+    Returns a list of primes less than n
+*/
 struct primes seive(int n){
     bool prime[n+1];
     memset(prime, true, sizeof(prime));
@@ -187,12 +257,28 @@ uint64_t gcd,x,y;
 
 
 };
+/*Euclid's algorithm for gcd 
+ EXAMPLES
+    ========
+    >>> gcd(7, 19)
+    1
+    >>> gcd(221,34)
+    17
+*/
 int recursive_gcd(int a,int b)
 {
 	if (a == 0)
         return b;
     return recursive_gcd(b % a, a);
 }
+/*Euclid's algorithm for gcd (Recursive)
+ EXAMPLES
+    ========
+    >>> gcd(7, 19)
+    1
+    >>> gcd(221,34)
+    17
+*/
 uint64_t gcd(uint64_t a,uint64_t b)
 {
 	while(a>0)
@@ -204,6 +290,28 @@ uint64_t gcd(uint64_t a,uint64_t b)
 	}
 	return b;
 }
+/*Extended Euclidean Algorithm (Recursive)
+    Args:
+        a: int
+        b: int
+    NOTES
+    =====
+    We can represent gcd(a,b) = a.x + b.y
+    This function returns gcd(a, b), x, y
+    Why does it work?
+    a.x + b.y = (b % a).x1 + a.y1
+              = (b - (b//a).a).x1 + a.y1
+              = a.(y1 - (b//a).x1) + b.x1
+    REFERENCES
+    ==========
+    http://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/
+    EXAMPLES
+    ========
+    >>> xgcd(15, 35)
+    (5, -2, 1)
+    >>> xgcd(30, 20)
+    (10, 1, -1)
+*/
 struct xgcda xgcd(uint64_t a,uint64_t b)
 {
 	uint64_t xprev=0, x = 1;
@@ -229,7 +337,24 @@ struct xgcda xgcd(uint64_t a,uint64_t b)
 	return ans;
 }
 
-
+/*"""Extended Euclidean Algorithm (Iterative)
+    Args:
+        a: int
+        b: int
+    NOTES
+    =====
+    We can represent gcd(a,b) = a.x + b.y
+    This function returns gcd(a, b), x, y
+    REFERENCES
+    ==========
+    https://anh.cs.luc.edu/331/notes/xgcd.pdf
+    EXAMPLES
+    ========
+    >>> xgcd(15, 35)
+    (5, -2, 1)
+    >>> xgcd(30, 20)
+    (10, 1, -1)
+    """*/
 struct xgcda recursive_xgcd(int a,int b)
 {
 	struct xgcda ans,temp;
@@ -248,7 +373,24 @@ struct xgcda recursive_xgcd(int a,int b)
 
 
 }
-
+/* """Modular Multiplicative Inverse
+    Args:
+        a: integer whose inverse is to be found
+        n: modular base
+    NOTES
+    =====
+    Returns the modular multiplicative inverse of 'a' under mod n
+    Return value is always positive
+    EXAMPLES
+    ========
+    >>> inverse(2, 5)
+    3
+    >>> inverse(17, 39)
+    23
+    >>> inverse(2,4)
+    Traceback (most recent call last):
+    Exception: Inverse does not exist.
+    """*/
 uint64_t inverse(uint64_t a, uint64_t n)
 {
 	struct xgcda temp;
@@ -264,6 +406,22 @@ return (temp.x % n + n) % n;
 
 }
 //gcd.cpp end
+/*returns the Euler Totient Function of n
+    phi(n) = number of positive integers co-prime with n.
+    Args:
+        n: integer
+    REFERENCES
+    ==========
+    http://www.geeksforgeeks.org/eulers-totient-function/
+    EXAMPLES
+    ========
+    >>> phi(10)
+    4
+    >>> phi(7)
+    6
+    >>> phi(33500000)
+    13200000
+*/
 uint64_t phi(uint64_t n)
 {
     uint64_t result = 1;
@@ -272,6 +430,13 @@ uint64_t phi(uint64_t n)
             result++;
     return result;
 }
+/*
+""generate a large a prime number by incremental search
+    Args:
+        bit_size: number of bits in generated prime. If you want a 100 bit long
+                  prime set bit_size = 100
+        primality_test: primality_test to use
+*/
 uint64_t generate_large_prime(int bits_size,string primality_test="miller_rabin")
  {
    // # Get a random bit_size bit integer
@@ -311,7 +476,7 @@ return num;
     
 }
 //RSA.cpp
-
+//int to char converter 
 void int64ToChar(char a[], int64_t n) {
 	uint64_t ans=0;
 int ctr=4;
@@ -322,7 +487,7 @@ int ctr=4;
 		a[ctr]=temp;
 	}
 }
-
+//char to int  converter 
 int64_t charTo64bitNum(char a[]) {
   int64_t n = 0;
   for(uint64_t i=0;i<3;++i)
@@ -336,7 +501,7 @@ int64_t charTo64bitNum(char a[]) {
 }
 
 
-
+//implimentation of rsa
 class RSA
 {
 private:
@@ -356,49 +521,49 @@ public:
 
             this->primality_test = "solovay_strassen";
 		}
-       this->p = generate_large_prime(this->bit_size, this->primality_test);
-        this->q = generate_large_prime(this->bit_size, this->primality_test);
-        while (this->p==this->q){
+       this->p = generate_large_prime(this->bit_size, this->primality_test);   //generation of p large prime
+        this->q = generate_large_prime(this->bit_size, this->primality_test);  //generation of q large prime
+        while (this->p==this->q){											//make sure p!=q
             this->q = generate_large_prime(this->bit_size, this->primality_test);
 		}
-        this->n = this->p * this->q;
-        this->phi = (this->p - 1) * (this->q - 1);
+        this->n = this->p * this->q;										//find n = p*q
+        this->phi = (this->p - 1) * (this->q - 1);							//find phi for given n
         generateandsetkeys();
 	}
 	void generateandsetkeys()
 	{	
 		
-		srand(time(NULL));
-	uint64_t n = rand()%(this->phi-2) + 1;
-	while(gcd(n,this->phi)!= 1){
-		n = rand()%(this->phi-2) + 1;
+		srand(time(NULL));												//get random number
+	uint64_t n = rand()%(this->phi-2) + 1;								//get random number less than phi
+	while(gcd(n,this->phi)!= 1){										//see that the random number generated has gcd 1 with phi
+		n = rand()%(this->phi-2) + 1;						
 	}
 	
-	this->publickey = n;
-	this->pvtkey = inverse(n,this->phi);
+	this->publickey = n;												//assign public key as n
+	this->pvtkey = inverse(n,this->phi);								//assign private key as inverse(n)
 	}
 	
 	
-unsigned long long getPublicKey(){
+unsigned long long getPublicKey(){										//just to get the public key
 
-	//cout<<this->publickey<<"\n"<<this->pvtkey;
-	unsigned long long ans=this->publickey;
+	//cout<<this->publickey<<"\n"<<this->pvtkey;	
+	unsigned long long ans=this->publickey;											
 	return ans;
 }
 
-uint64_t encrypt_block(uint64_t plain_text_block){
+uint64_t encrypt_block(uint64_t plain_text_block){						//encrypt the code by raising the message to the power of public key 
 	uint64_t cipher_text_block;
 	cipher_text_block = exp(plain_text_block,this->publickey,this->n);
 	return cipher_text_block;
 }
 
-uint64_t decrypt_block(uint64_t cipher_text_block){
+uint64_t decrypt_block(uint64_t cipher_text_block){						//decrypt the code by raising the message to the power of private key
 	uint64_t plain_text_block;
 	plain_text_block = exp(cipher_text_block,this->pvtkey,this->n);
 	return plain_text_block;
 }
 
-string process_string(string message){
+string process_string(string message){									//to divide the message into blocks and covert to integer array
      char c_temp[100],message2[5];
 	 strcpy(c_temp, message.c_str()); 
 	int length=strlen(c_temp);
@@ -421,7 +586,7 @@ string process_string(string message){
 return strans;
 }
 
-string recover_string(string encrypted_message)
+string recover_string(string encrypted_message)					//to decrypt the message and get back data by coverting to charcter array and joining the pieces
 {
 char c_temp[100],message2[100];
 	 strcpy(c_temp, encrypted_message.c_str()); 
