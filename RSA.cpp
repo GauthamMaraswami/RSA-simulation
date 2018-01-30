@@ -105,35 +105,33 @@ int jacobi(int a,int  b)
     >>> fermats_test(561)
     False*/
 bool fermats_test(int n,int k=10)
-   {
+{
     if (n == 2)
         return true;
     if (n % 2==0)
         return false;
-
     for (int g=0;g<k;++g)
-        {	srand(time(NULL));
-			uint64_t a=rand()%(n-1)+2;
-		//	a = random.randint(2, n-1)
-		    if (exp(a, n - 1, n) != 1)
+    {
+		srand(time(NULL));
+		uint64_t a=rand()%(n-1)+2;
+	    if (exp(a, n - 1, n) != 1)
 		        return false;
-		}
-    return true;
 	}
-  bool check_if_composite_using(uint64_t a,uint64_t d,uint64_t n,uint64_t s)
-       {
-		uint64_t x = exp(a, d, n);
-        if (x == 1 || x == n - 1)
-            return false;  //probably prime
-        for (uint64_t g=0;g<s;++g)
-            {
-				x = (x * x) % n  ;//check for each a^((2^i)*d)
-	            if (x == n - 1)
-	                return false;  // probably prime
-		       
-			}
-			 return true ; // definitely composite
+    return true;
+}
+bool check_if_composite_using(uint64_t a,uint64_t d,uint64_t n,uint64_t s)
+{
+	uint64_t x = exp(a, d, n);
+    if (x == 1 || x == n - 1)
+	    return false;  //probably prime
+    for (uint64_t g=0;g<s;++g)
+	    {
+			x = (x * x) % n  ;//check for each a^((2^i)*d)
+	        if (x == n - 1)
+		        return false;  // probably prime	       
 		}
+			 return true ; // definitely composite
+}
 /*
 "Miller Rabin Primality Test
     Return False if n is composite, True(probably prime) otherwise.
