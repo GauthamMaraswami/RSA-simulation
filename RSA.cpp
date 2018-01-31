@@ -144,35 +144,29 @@ EXAMPLES
     >>> miller_rabin(221)
     False
 */
-bool miller_rabin(uint64_t n,uint64_t k=10){
-  
+bool miller_rabin(uint64_t n,uint64_t k=10)
+{  
     if (n == 2)
         return true;
     if (n == 1 || (n % 2) == 0)
         return false;
-
-  uint64_t s= 0;
-	uint64_t d=n-1;
- 
+	uint64_t s= 0;
+	uint64_t d=n-1; 
     while  (d % 2!=0)
-       {
-		 	s += 1;
-        	d /= 2;
-		}
-    
-
-  
+    {
+	 	s += 1;
+       	d /= 2;
+	}
+     
    // # Test for k random integers a
     for (int g=0;g<k;++g)
-		{
-			srand(time(NULL));
-			uint64_t a=rand()%(n-1)+2;
-      
+	{
+		srand(time(NULL));
+		uint64_t a=rand()%(n-1)+2; 
         if (check_if_composite_using(a,d,n,s))
             return false; // # definitelyn composite
-		}
+	}
     return true; // # probably prime
-
 }
 
 /*
@@ -188,30 +182,24 @@ EXAMPLES
 */
 
 bool solovay_strassen(int n, int k=10)
-    {
-
+{
     if (n == 2)
         return true;
     if (n == 1 || (n % 2) == 0)
         return false;
-
-    for (int g=0;g<k;++g){
-
-			srand(time(NULL));
-			int a=rand()%(n-1)+2;
-       int  x = (jacobi(a, n) + n) % n; // # map -1 to n - 1
+    for (int g=0;g<k;++g)
+	{
+		srand(time(NULL));
+		int a=rand()%(n-1)+2;
+        int  x = (jacobi(a, n) + n) % n; // # map -1 to n - 1
         if (x == 0 || exp(a, (n - 1)/2, n) != x)
             return false;
-		}
-return true;
-
+	}
+	return true;
 }
-
-
-
 //prime_utils.cpp
-
-struct primes{
+struct primes
+{
 		int list[1000000];
 		int size;
 };
@@ -219,7 +207,8 @@ struct primes{
 Seive of Eratosthenes
     Returns a list of primes less than n
 */
-struct primes seive(int n){
+struct primes seive(int n)
+{
     bool prime[n+1];
     memset(prime, true, sizeof(prime));
   	for (int p=2; p*p<=n; p++)
@@ -233,8 +222,7 @@ struct primes seive(int n){
         }
     }
 	struct primes ans;
-		ans.size=0;
-
+	ans.size=0;
 	for(uint64_t p=2;p<=n;p++)
 	{
 		if(prime[p]==true)
@@ -244,15 +232,12 @@ struct primes seive(int n){
 			cout<<ans.list[ans.size-1]<<endl ;	
 		}
 	}
-return ans;
-//return 0;
+	return ans;
 }
-
 //gcd.cpp
-struct xgcda{
-uint64_t gcd,x,y;
-
-
+struct xgcda
+{
+	uint64_t gcd,x,y;
 };
 /*Euclid's algorithm for gcd 
  EXAMPLES
@@ -394,13 +379,11 @@ uint64_t inverse(uint64_t a, uint64_t n)
 	temp= xgcd(a, n);
 
     if (temp.gcd != 1)
-       {
-		 cout<<"Inverse does not exist.";
+    {
+		cout<<"Inverse does not exist.";
 		exit(0);	
-		}
-
-return (temp.x % n + n) % n;
-
+	}
+	return (temp.x % n + n) % n;
 }
 //gcd.cpp end
 /*returns the Euler Totient Function of n
@@ -435,19 +418,17 @@ uint64_t phi(uint64_t n)
         primality_test: primality_test to use
 */
 uint64_t generate_large_prime(int bits_size,string primality_test="miller_rabin")
- {
+{
    // # Get a random bit_size bit integer
-
-
 	srand(time(NULL));
 	uint64_t range = pow(2,bits_size-1);
 	uint64_t num = range + rand()%(range);
 	if(num%2==0)
 		num++;
-
 	if(primality_test=="miller_rabin")
 	{
-		while(miller_rabin(num,100)==false){
+		while(miller_rabin(num,100)==false)
+		{
 			num+=2;
 			if(num>=range*2)
 				num = range + rand()%(range);
@@ -455,7 +436,8 @@ uint64_t generate_large_prime(int bits_size,string primality_test="miller_rabin"
 	}
 	else if(primality_test=="solovay_strassen")
 	{
-		while(solovay_strassen(num,50)==false){
+		while(solovay_strassen(num,50)==false)
+		{
 			num+=2;
 			if(num>=range*2)
 				num = range + rand()%(range);
@@ -463,104 +445,102 @@ uint64_t generate_large_prime(int bits_size,string primality_test="miller_rabin"
 	}
 	else if(primality_test=="fermats_test")
 	{
-		while(fermats_test(num,50)==false){
+		while(fermats_test(num,50)==false)
+		{
 			num+=2;
 			if(num>=range*2)
 				num = range + rand()%(range);
 		}
 	}
-return num;
-    
+	return num;  
 }
 //RSA.cpp
 //int to char converter 
-void int64ToChar(char a[], int64_t n) {
+void int64ToChar(char a[], int64_t n)
+{
 	uint64_t ans=0;
-int ctr=4;
+	int ctr=4;
 	while(ctr<4)
 	{
 		uint64_t temp =n%100;
-		  n/=100;
+		n/=100;
 		a[ctr]=temp;
 	}
 }
 //char to int  converter 
-int64_t charTo64bitNum(char a[]) {
+int64_t charTo64bitNum(char a[])
+{
   int64_t n = 0;
   for(uint64_t i=0;i<3;++i)
 	{
 		int az=a[i];
-		//cout<<az;
 		n=n*100+az;
 	}
-	//cout<<n;
   return n;
 }
-
-
 //implimentation of rsa
 class RSA
 {
-private:
-	int bit_size;
-	unsigned long long p,q,n,phi,pvtkey,publickey;
-	string primality_test;
-public:
-
+	private:
+		int bit_size;
+		unsigned long long p,q,n,phi,pvtkey,publickey;
+		string primality_test;
+	public:
 	 RSA( int size=128, string primality_test="miller_rabin")
-       {
-        this->bit_size = size;
-        if (primality_test == "miller_rabin")
-           {
-			 this->primality_test = "miller_rabin";
+     {
+     	   this->bit_size = size;
+     	   if (primality_test == "miller_rabin")
+			{
+				 this->primality_test = "miller_rabin";
 			}
-        else if(primality_test == "solovay_strassen"){
-
-            this->primality_test = "solovay_strassen";
-		}
-       this->p = generate_large_prime(this->bit_size, this->primality_test);   //generation of p large prime
-        this->q = generate_large_prime(this->bit_size, this->primality_test);  //generation of q large prime
-        while (this->p==this->q){											//make sure p!=q
-            this->q = generate_large_prime(this->bit_size, this->primality_test);
-		}
-        this->n = this->p * this->q;										//find n = p*q
-        this->phi = (this->p - 1) * (this->q - 1);							//find phi for given n
-        generateandsetkeys();
+	       else if(primality_test == "solovay_strassen")
+			{
+    	        this->primality_test = "solovay_strassen";
+			}
+			this->p = generate_large_prime(this->bit_size, this->primality_test);   //generation of p large prime
+    	    this->q = generate_large_prime(this->bit_size, this->primality_test);  //generation of q large prime
+	        while (this->p==this->q)
+			{											//make sure p!=q
+	            this->q = generate_large_prime(this->bit_size, this->primality_test);
+			}
+	        this->n = this->p * this->q;										//find n = p*q
+	        this->phi = (this->p - 1) * (this->q - 1);							//find phi for given n
+	        generateandsetkeys();
 	}
 	void generateandsetkeys()
 	{	
 		
 		srand(time(NULL));												//get random number
-	uint64_t n = rand()%(this->phi-2) + 1;								//get random number less than phi
-	while(gcd(n,this->phi)!= 1){										//see that the random number generated has gcd 1 with phi
-		n = rand()%(this->phi-2) + 1;						
+		uint64_t n = rand()%(this->phi-2) + 1;								//get random number less than phi
+		while(gcd(n,this->phi)!= 1)
+		{										//see that the random number generated has gcd 1 with phi
+			n = rand()%(this->phi-2) + 1;						
+		}
+	
+		this->publickey = n;												//assign public key as n
+		this->pvtkey = inverse(n,this->phi);								//assign private key as inverse(n)
 	}
-	
-	this->publickey = n;												//assign public key as n
-	this->pvtkey = inverse(n,this->phi);								//assign private key as inverse(n)
+	unsigned long long getPublicKey()
+	{										//just to get the public key
+		unsigned long long ans=this->publickey;											
+		return ans;
 	}
-	
-	
-unsigned long long getPublicKey(){										//just to get the public key
 
-	//cout<<this->publickey<<"\n"<<this->pvtkey;	
-	unsigned long long ans=this->publickey;											
-	return ans;
-}
+	uint64_t encrypt_block(uint64_t plain_text_block)
+	{						//encrypt the code by raising the message to the power of public key 
+		uint64_t cipher_text_block;
+		cipher_text_block = exp(plain_text_block,this->publickey,this->n);
+		return cipher_text_block;
+	}
 
-uint64_t encrypt_block(uint64_t plain_text_block){						//encrypt the code by raising the message to the power of public key 
-	uint64_t cipher_text_block;
-	cipher_text_block = exp(plain_text_block,this->publickey,this->n);
-	return cipher_text_block;
-}
-
-uint64_t decrypt_block(uint64_t cipher_text_block){						//decrypt the code by raising the message to the power of private key
-	uint64_t plain_text_block;
-	plain_text_block = exp(cipher_text_block,this->pvtkey,this->n);
-	return plain_text_block;
-}
-
-string process_string(string message){									//to divide the message into blocks and covert to integer array
+	uint64_t decrypt_block(uint64_t cipher_text_block)
+	{						//decrypt the code by raising the message to the power of private key
+		uint64_t plain_text_block;
+		plain_text_block = exp(cipher_text_block,this->pvtkey,this->n);
+		return plain_text_block;
+	}
+	string process_string(string message)
+	{									//to divide the message into blocks and covert to integer array
      char c_temp[100],message2[5];
 	 strcpy(c_temp, message.c_str()); 
 	int length=strlen(c_temp);
