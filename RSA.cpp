@@ -541,84 +541,57 @@ class RSA
 	}
 	string process_string(string message)
 	{									//to divide the message into blocks and covert to integer array
-     char c_temp[100],message2[5];
-	 strcpy(c_temp, message.c_str()); 
-	int length=strlen(c_temp);
-	//cout<<length;
-	uint64_t message1[100];
-	int ctr=0;
-	string strans;
-    for(uint64_t i=0;i<length;i+=3)
-		{
-			strncpy(message2, c_temp + i, 3);
-			message1[ctr]=charTo64bitNum(message2);
-			++ctr;
-			//cout<<message1[ctr-1]<<endl;
-			uint64_t ans=encrypt_block(message1[ctr]);
-			strans += std::to_string(ans);
-			strans+="z";
+		 char c_temp[100],message2[5];
+		 strcpy(c_temp, message.c_str()); 
+		 int length=strlen(c_temp);
+		 uint64_t message1[100];
+		 int ctr=0;
+		 string strans;
+    	 for(uint64_t i=0;i<length;i+=3)
+		 {
+				strncpy(message2, c_temp + i, 3);
+				message1[ctr]=charTo64bitNum(message2);
+				++ctr;
+				uint64_t ans=encrypt_block(message1[ctr]);
+				strans += std::to_string(ans);
+				strans+="z";
+		 }
+		return strans;
+	}
 
-		}
-
-return strans;
-}
-
-string recover_string(string encrypted_message)					//to decrypt the message and get back data by coverting to charcter array and joining the pieces
-{
-char c_temp[100],message2[100];
-	 strcpy(c_temp, encrypted_message.c_str()); 
-	int length=strlen(c_temp);
-	//cout<<c_temp<<endl;
-	uint64_t message1;
-	int ctr=0;
-	string strans;
-	int st=0;
-	
-	for(uint64_t i=0;i<length;i++)
+	string recover_string(string encrypted_message)					//to decrypt the message and get back data by coverting to charcter array and joining the pieces
+	{
+		char c_temp[100],message2[100];
+		strcpy(c_temp, encrypted_message.c_str()); 
+		int length=strlen(c_temp);
+		uint64_t message1;
+		int ctr=0;
+		string strans;
+		int st=0;	
+		for(uint64_t i=0;i<length;i++)
 		{
 			if(c_temp[i]=='z')
-				{
-						strncpy(message2, c_temp + st, i-st);
-						st=i+1;
-						uint64_t buf =atoi(message2);
-						uint64_t decrypted=decrypt_block(buf);
-						char c_temp1[100];
-						 int64ToChar(c_temp1,decrypted);
- 						//cout<<decrypted<<"zoomcar"<<c_temp1<<endl<<"test"<<endl;
-
-				}
+			{
+				strncpy(message2, c_temp + st, i-st);
+				st=i+1;
+				uint64_t buf =atoi(message2);
+				uint64_t decrypted=decrypt_block(buf);
+				char c_temp1[100];
+				int64ToChar(c_temp1,decrypted);
+			}
 			
 		}
-
-return "baboo";
-
-}
-
+		return "";
+	}
 };
-
-
-    
-
-
-
-
 int main()
 {
-//cout<<fermats_test(561);
-//cout<<miller_rabin(29);
-RSA r1(10);
-
-uint64_t abc=r1.encrypt_block(90);
-uint64_t cab=r1.decrypt_block(abc);
-cout<<abc<<"ans"<<cab;
-string temp=r1.process_string("ZZZZZZZZZz");
-cout<<temp<<endl<<endl;
-cout<<r1.recover_string(temp);
-//cout<<solovay_strassen(221);
-//struct xgcda ans =recursive_xgcd(15, 35);
-//cout<<ans.gcd<<ans.x<<ans.y<<endl;
-//cout<<recursive_gcd(10,25);
-//cout<< inverse(2,4)<<endl;
-return 0;
-
+	RSA r1(10);
+	uint64_t abc=r1.encrypt_block(90);
+	uint64_t cab=r1.decrypt_block(abc);
+	cout<<abc<<"ans"<<cab;
+	string temp=r1.process_string("ZZZZZZZZZz");
+	cout<<temp<<endl<<endl;
+	cout<<r1.recover_string(temp);
+	return 0;
 }
