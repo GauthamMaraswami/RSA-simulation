@@ -31,5 +31,5 @@ Check whether a number is prime or not
 in main add the code
 cout<<miller_rabin(13);
 cout<<fermats_test(13);
-
+cout<<solovay_strassen(13);
 
