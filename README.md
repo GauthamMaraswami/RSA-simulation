@@ -33,3 +33,8 @@ cout<<miller_rabin(13);
 cout<<fermats_test(13);
 cout<<solovay_strassen(13);
 
+### Thanks
+special thanks to Kaushik S Kalmady for giving the outline by implementing the code in python
+References https://www.geeksforgeeks.org/ https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+
+
